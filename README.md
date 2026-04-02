@@ -34,7 +34,7 @@ I'm a **Front-End Developer** passionate about building **scalable web applicati
 - Developed **responsive UIs** with modern HTML5 & CSS3
 - Implemented **clean frontend workflows** with TypeScript & Git
 
-**Contact**: wilhelm.viktor78@gmail.com
+**Contact**: hello@viktor-wilhelm.de
 
 ---
 
