@@ -39,5 +39,5 @@ I'm a **Front-End Developer** passionate about building **scalable web applicati
 ---
 
 <div align="center">
-  <img src="https://komarev.com/ghpvc/?username=rockviktor78&color=brightgreen&style=flat-square&label=Profile+Views" alt="Profile Views" />
+  <img src="https://komarev.com/ghpvc/?username=viktor-wilhelm&color=brightgreen&style=flat-square&label=Profile+Views" alt="Profile Views" />
 </div>
