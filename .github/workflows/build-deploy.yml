@@ -1,0 +1,187 @@
+name: Build PWA & Deploy to IONOS
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔨 Generate Service Worker with Workbox
+        run: npm run build-sw
+
+      - name: 📝 Show Generated Service Worker Info
+        run: |
+          echo "✅ Service Worker generated successfully!"
+          ls -lh service-worker.js
+          head -30 service-worker.js
+
+      - name: 📁 Prepare Deployment Structure
+        run: |
+          mkdir -p deploy
+
+          # Copy all source files (index.html, pages, css, js, etc.)
+          cp -r index.html deploy/ 2>/dev/null || true
+          cp -r pages deploy/ 2>/dev/null || true
+          cp -r css deploy/ 2>/dev/null || true
+          cp -r js deploy/ 2>/dev/null || true
+          cp -r assets deploy/ 2>/dev/null || true
+          cp -r config deploy/ 2>/dev/null || true
+          cp -r services deploy/ 2>/dev/null || true
+
+          # Copy generated Service Worker
+          cp service-worker.js deploy/
+
+          # Copy .htaccess with proper PWA headers
+          cat > deploy/.htaccess << 'EOF'
+          # ======================================================
+          # 🚫 Block direct access to /pages/ in the URL
+          # ======================================================
+          RewriteCond %{THE_REQUEST} \s/+pages/ [NC]
+          RewriteRule ^pages/ - [F]
+
+          # ======================================================
+          # 🔁 Apache Configuration for Join MPA
+          # ======================================================
+          RewriteEngine On
+          RewriteBase /
+
+          # ======================================================
+          # 🔒 Force HTTPS
+          # ======================================================
+          RewriteCond %{HTTPS} off
+          RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+          # ======================================================
+          # 🛡️ API Routes Protection - Don't rewrite API calls
+          # ======================================================
+          RewriteCond %{REQUEST_URI} ^/api/
+          RewriteRule . - [L]
+
+          # ======================================================
+          # 🌐 Pretty URLs: /summary.html -> /pages/summary.html
+          # ======================================================
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          RewriteRule ^([a-zA-Z0-9_-]+)\.html$ /pages/$1.html [L]
+
+          # ======================================================
+          # 📱 Service Worker & Manifest - NO CACHE (Critical!)
+          # ======================================================
+          <IfModule mod_headers.c>
+            # Service Worker MUST always be fresh
+            <FilesMatch "^service-worker\.js$">
+              Header set Cache-Control "no-cache, no-store, must-revalidate"
+              Header set Pragma "no-cache"
+              Header set Expires "0"
+              Header set Content-Type "application/javascript"
+              Header set Service-Worker-Allowed "/"
+            </FilesMatch>
+
+            # Manifest files - short cache only
+            <FilesMatch "\.webmanifest$">
+              Header set Cache-Control "public, max-age=3600"
+              Header set Content-Type "application/manifest+json"
+            </FilesMatch>
+          </IfModule>
+
+          # ======================================================
+          # 🚀 Cache Control für Static Assets
+          # ======================================================
+          <IfModule mod_expires.c>
+            ExpiresActive on
+
+            # CSS - Long cache (will be updated with new SW)
+            ExpiresByType text/css "access plus 1 year"
+
+            # JavaScript - Long cache (will be updated with new SW)
+            ExpiresByType application/javascript "access plus 1 year"
+
+            # Images - Long cache
+            ExpiresByType image/png "access plus 1 year"
+            ExpiresByType image/jpg "access plus 1 year"
+            ExpiresByType image/jpeg "access plus 1 year"
+            ExpiresByType image/webp "access plus 1 year"
+            ExpiresByType image/avif "access plus 1 year"
+            ExpiresByType image/svg+xml "access plus 1 year"
+
+            # Fonts - Very long cache
+            ExpiresByType font/woff2 "access plus 1 year"
+
+            # JSON - Don't cache
+            ExpiresByType application/json "access plus 0 seconds"
+          </IfModule>
+
+          # ======================================================
+          # 🔐 Security Headers
+          # ======================================================
+          <IfModule mod_headers.c>
+            # Prevent MIME type sniffing
+            Header always set X-Content-Type-Options nosniff
+
+            # Prevent clickjacking
+            Header always set X-Frame-Options DENY
+
+            # XSS Protection
+            Header always set X-XSS-Protection "1; mode=block"
+
+            # HSTS - Force HTTPS for 1 year
+            Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+            # Remove Server signature
+            Header unset Server
+          </IfModule>
+          EOF
+
+      - name: 📤 Deploy to IONOS via SFTP
+        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
+        uses: Dylan700/sftp-upload-action@v1.1.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          uploads: |
+            ./deploy/ => ./join-mpa/
+          delete: false
+
+      - name: ✅ Deployment Complete
+        if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
+        run: |
+          echo "🎉 PWA Deployment successful!"
+          echo "📱 App: https://join-mpa.dev2k.org"
+          echo "🔄 Service Worker: Automatically updated with hash-based versioning"
+          echo "💾 Cache: Intelligently managed by Workbox"
+
+      - name: 💬 Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ✅ PWA Build Successful\n\n- 🔨 Service Worker: Generated with Workbox\n- 📱 Manifest: Ready\n- 🔄 Cache Busting: Automatic hash-based versioning\n- 💾 Assets: Optimized caching strategies\n\nReady to merge! 🚀`
+            })
