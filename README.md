@@ -16,6 +16,7 @@ My main stack includes JavaScript, HTML, and CSS, and I am currently expanding m
 Coming from a technical background, I bring a structured and solution-oriented approach to development. I enjoy analyzing problems, improving existing solutions, and continuously growing as a developer.
 
 My goal is to contribute to real-world projects, deliver reliable solutions, and create applications that are both functional and intuitive.
+
 ---
 
 ### Tech Stack & Tools
