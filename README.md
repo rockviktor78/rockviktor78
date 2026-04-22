@@ -1,4 +1,4 @@
-<h1 align="center">👋 Hi, I'm Viktor Wilhelm</h1>
+<h1 align="center">Hi, I'm Viktor Wilhelm</h1>
 <h3 align="center">Front-End Developer | JavaScript, HTML5, CSS3</h3>
 
 <div align="center">
@@ -7,15 +7,13 @@
 
 ### About
 
-💼 Strong Junior / Almost Mid Version
+I build modern, responsive web applications with a strong focus on clean code, sustainable architecture, and a smooth user experience.
 
-I build modern, responsive web applications with a focus on clean architecture, maintainable code, and a smooth user experience.
+In my projects, I combine solid technical skills (JavaScript, HTML, CSS, currently expanding into TypeScript and Angular) with soft skills such as teamwork, solution-oriented thinking, and clear communication. Whether working independently or in a team, I analyze challenges in a structured way, find practical solutions, and continuously improve my skills.
 
-My main stack includes JavaScript, HTML, and CSS, and I am currently expanding my skills into TypeScript and Angular. Through multiple hands-on projects — both independently and in team environments — I have gained practical experience in building structured components, working with APIs, and implementing interactive features.
+Coming from a strong technical background, I approach development in a structured and solution-oriented way. I enjoy analyzing problems, improving existing solutions, and continuously growing as a developer.
 
-Coming from a technical background, I bring a structured and solution-oriented approach to development. I enjoy analyzing problems, improving existing solutions, and continuously growing as a developer.
-
-My goal is to contribute to real-world projects, deliver reliable solutions, and create applications that are both functional and intuitive.
+My goal is to contribute to real-world projects, deliver reliable solutions, and create applications that are both functional and intuitive, providing real value to users.
 
 ---
 
