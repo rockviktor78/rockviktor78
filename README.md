@@ -1,8 +1,51 @@
-<h1 align="center">Hi, I'm Viktor Wilhelm</h1>
-<h3 align="center">Front-End Developer | JavaScript, HTML5, CSS3</h3>
-
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Lexend&pause=1000&color=22C55E&center=true&vCenter=true&width=435&lines=Front-End+Developer;Scalable+Web+Applications;Clean+Code+Architecture" alt="Typing SVG" />
+<svg
+  width="854"
+  height="150"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  style="z-index:1;position:relative"
+  viewBox="0 0 854 150"
+>
+  <style>
+    .text { font-size: 36px; font-weight: 700; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji; }
+    .desc { font-size: 20px; font-weight: 500; font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji; }
+    .text, .desc { animation: fadeIn 1.2s ease-in-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+  <g transform="translate(427, 75) scale(1, 1) translate(-427, -75)">
+    <path d="" fill="#22c55e" opacity="0.4">
+      <animate
+        attributeName="d"
+        dur="20s"
+        repeatCount="indefinite"
+        keyTimes="0;0.333;0.667;1"
+        calcMode="spline"
+        keySplines="0.2 0 0.2 1;0.2 0 0.2 1;0.2 0 0.2 1"
+        begin="0s"
+        values="M0 0L 0 70Q 213.5 110 427 80T 854 105L 854 0 Z;M0 0L 0 95Q 213.5 110 427 90T 854 80L 854 0 Z;M0 0L 0 115Q 213.5 85 427 115T 854 80L 854 0 Z;M0 0L 0 70Q 213.5 110 427 80T 854 105L 854 0 Z"
+      />
+    </path>
+    <path d="" fill="#22c55e" opacity="0.4">
+      <animate
+        attributeName="d"
+        dur="20s"
+        repeatCount="indefinite"
+        keyTimes="0;0.333;0.667;1"
+        calcMode="spline"
+        keySplines="0.2 0 0.2 1;0.2 0 0.2 1;0.2 0 0.2 1"
+        begin="-10s"
+        values="M0 0L 0 85Q 213.5 130 427 100T 854 110L 854 0 Z;M0 0L 0 100Q 213.5 70 427 70T 854 90L 854 0 Z;M0 0L 0 95Q 213.5 75 427 100T 854 115L 854 0 Z;M0 0L 0 85Q 213.5 130 427 100T 854 110L 854 0 Z"
+      />
+    </path>
+  </g>
+  <text text-anchor="middle" alignment-baseline="middle" x="50%" y="38%" class="text" style="fill:#1a1a2e;" stroke="none" stroke-width="1">Viktor Wilhelm</text>
+  <text text-anchor="middle" alignment-baseline="middle" x="50%" y="68%" class="desc" style="fill:#1a1a2e;" stroke="none" stroke-width="1">Front-End Developer · JS · HTML5 · CSS3</text>
+</svg>
+
+<br/>
+
+<img src="https://readme-typing-svg.herokuapp.com?font=Lexend&pause=1000&color=22C55E&center=true&vCenter=true&width=435&lines=Front-End+Developer;Scalable+Web+Applications;Clean+Code+Architecture" alt="Typing SVG" />
 </div>
 
 ### About
